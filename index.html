@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>AR.js A-Frame Location-based</title>
+        <title>test with new entity place</title>
         <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
         <script
             type="text/javascript"
@@ -30,8 +30,8 @@
         <script type="text/javascript">
             window.addEventListener('load', () => {
                 document
-                    .querySelector('[gps-entity-place]')
-                    .addEventListener('gps-entity-place-update-position', (payload) => {
+                    .querySelector('[gps-new-entity-place]')
+                    .addEventListener('gps-new-entity-place-update-position', (payload) => {
                         let v = parseInt(payload.detail.distance);
                         alert(`${v} meter`);
                         // you may show the distance in the value of <a-text>
