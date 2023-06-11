@@ -97,10 +97,6 @@
                             });
                             text.setAttribute('value', marker.title);
                             scene.appendChild(text);
-
-                            // Update position of the elements
-                            box.components['gps-entity-place']._updatePosition();
-                            text.components['gps-entity-place']._updatePosition();
                         })
                         .catch((error) => {
                             console.error('Error fetching marker data:', error);
