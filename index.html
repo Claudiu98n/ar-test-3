@@ -63,7 +63,7 @@
             Lat: <label id="lat"></label> Lon: <label id="lon"></label> Distance: <label id="dist"></label>
         </div>
         <script type="text/javascript">
-            window.addEventListener('DOMContentLoaded', () => {
+            window.onload = () => {
                 const urlParams = new URLSearchParams(window.location.search);
                 const markerId = urlParams.get('markerId');
 
@@ -98,26 +98,26 @@
                                 );
                                 text.setAttribute('value', marker.title);
                                 scene.appendChild(text);
+
+                                document
+                                    .querySelector('[gps-entity-place]')
+                                    .addEventListener('gps-entity-place-update-position', (payload) => {
+                                        let v = parseInt(payload.detail.distance);
+                                        document.getElementById('dist').innerHTML = `${v} m`;
+                                        navigator.geolocation.getCurrentPosition((position) => {
+                                            let lat = position.coords.latitude;
+                                            let long = position.coords.longitude;
+                                            document.getElementById('lat').innerHTML = lat.toFixed(4);
+                                            document.getElementById('lon').innerHTML = long.toFixed(4);
+                                        });
+                                    });
                             });
                         })
                         .catch((error) => {
                             console.error('Error fetching marker data:', error);
                         });
                 }
-
-                document
-                    .querySelector('[gps-entity-place]')
-                    .addEventListener('gps-entity-place-update-position', (payload) => {
-                        let v = parseInt(payload.detail.distance);
-                        document.getElementById('dist').innerHTML = `${v} m`;
-                        navigator.geolocation.getCurrentPosition((position) => {
-                            let lat = position.coords.latitude;
-                            let long = position.coords.longitude;
-                            document.getElementById('lat').innerHTML = lat.toFixed(4);
-                            document.getElementById('lon').innerHTML = long.toFixed(4);
-                        });
-                    });
-            });
+            };
         </script>
     </body>
 </html>
