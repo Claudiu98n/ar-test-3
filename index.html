@@ -74,9 +74,7 @@
                 const markerId = urlParams.get('markerId');
 
                 if (markerId) {
-                    fetch(
-                        `https://279c-2a02-2f0b-4316-8b00-a44c-4e28-df8e-c405.ngrok-free.app/markers/${markerId}`
-                    )
+                    fetch(`http://localhost:8000/v1/gis/markers/${markerId}`)
                         .then((response) => response.json())
                         .then((marker) => {
                             console.log('Marker data:', marker);
