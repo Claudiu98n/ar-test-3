@@ -1,52 +1,35 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>AR.js A-Frame Location-based</title>
-  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/ar.js/aframe/build/aframe-ar.js"></script>
-</head>
-<body>
-  <a-scene vr-mode-ui="enabled: false" arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false" renderer="antialias: true; alpha: true">
-    <a-camera gps-camera="gpsMinDistance: 5"></a-camera>
-    <a-anchor gps-entity-place="latitude: 44.47803; longitude: 26.12221;">
-      <a-box material="color: red" scale="10 10 10"></a-box>
-      <a-entity position="0 1 0">
-        <a-text id="distance-text" scale="10 10 10"></a-text>
-      </a-entity>
-    </a-anchor>
-  </a-scene>
-  <script type="text/javascript">
-    window.addEventListener('arjs-nft-loaded', function () {
-      const marker = document.querySelector('a-marker');
-      const distanceText = document.getElementById('distance-text');
-      const camera = document.querySelector('[gps-camera]');
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Location-based AR.js demo demo demo</title>
+        <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+        <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+        <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+    </head>
 
-      function calculateDistance(positionA, positionB) {
-        const earthRadius = 6371000; // in meters
-        const lat1 = positionA.latitude * Math.PI / 180;
-        const lon1 = positionA.longitude * Math.PI / 180;
-        const lat2 = positionB.latitude * Math.PI / 180;
-        const lon2 = positionB.longitude * Math.PI / 180;
-
-        const deltaLat = lat2 - lat1;
-        const deltaLon = lon2 - lon1;
-
-        const a =
-          Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
-          Math.cos(lat1) * Math.cos(lat2) * Math.sin(deltaLon / 2) * Math.sin(deltaLon / 2);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-        const distance = earthRadius * c;
-        return distance;
-      }
-
-      marker.addEventListener('gps-entity-place-update-position', function (event) {
-        const markerPosition = event.detail.position;
-        const cameraPosition = camera.components['gps-camera'].currentCoordinates();
-        const distance = calculateDistance(markerPosition, cameraPosition);
-        distanceText.setAttribute('value', `${distance.toFixed(2)} meters`);
-      });
-    });
-  </script>
-</body>
+    <body style="margin: 0; overflow: hidden">
+        <a-scene vr-mode-ui="enabled: false" embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+            <a-text
+                value="This content will always face you."
+                look-at="[gps-camera]"
+                scale="50 50 50"
+                gps-entity-place="latitude: 44.47803; longitude: 26.12221;"
+            ></a-text>
+            <a-camera gps-camera rotation-reader> </a-camera>
+        </a-scene>
+        <script type="text/javascript">
+            window.addEventListener('load', () => {
+                document
+                    .querySelector('[gps-entity-place]')
+                    .addEventListener('gps-entity-place-update-position', (payload) => {
+                        let v = parseInt(payload.detail.distance);
+                        alert(`${v} meter`);
+                        // you may show the distance in the value of <a-text>
+                        // document.getElementById("id-of-a-text").setAttribute('value', ${v} meter);
+                    });
+            });
+        </script>
+    </body>
 </html>
