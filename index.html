@@ -49,8 +49,8 @@
                 rotation-reader
             ></a-camera>
 
-            <a-entity id="markerEntity" gps-entity-place look-at="[gps-camera]">
-                <a-cone id="pointer" position="0 0 -2" scale="1 2 1" color="red"></a-cone>
+            <a-entity id="markerEntity" look-at="[gps-camera]">
+                <a-cone id="pointer" position="0 80 0" scale="2.5 2.5 2.5" color="red"></a-cone>
                 <a-text id="markerTitle" value="" scale="2.5 2.5 2.5" position="0 83 0"></a-text>
             </a-entity>
         </a-scene>
@@ -84,9 +84,6 @@
                                     'gps-entity-place',
                                     `latitude: ${marker.latitude}; longitude: ${marker.longitude};`
                                 );
-
-                            const pointer = document.getElementById('pointer');
-                            pointer.setAttribute('position', '0 80 0');
 
                             const markerTitle = document.getElementById('markerTitle');
                             markerTitle.setAttribute('value', marker.title);
