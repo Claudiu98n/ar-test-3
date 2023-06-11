@@ -29,7 +29,6 @@
             }
         </style>
     </head>
-
     <body style="margin: 0; overflow: hidden">
         <div class="arjs-loader">
             <div>Loading, please wait...</div>
@@ -48,23 +47,6 @@
                 arjs-look-controls="smoothingFactor: 0.1"
                 rotation-reader
             ></a-camera>
-
-            <a-box
-                id="box-id"
-                material="color: blue"
-                position="0 80 0"
-                scale="2.5 2.5 2.5"
-                rotation="0 180 0"
-                gps-entity-place
-            >
-            </a-box>
-            <a-text
-                id="text-id"
-                look-at="[gps-camera]"
-                scale="2.5 2.5 2.5"
-                position="0 83 0"
-                gps-entity-place
-            ></a-text>
         </a-scene>
         <div
             id="setloc"
@@ -90,17 +72,33 @@
                         .then((response) => response.json())
                         .then((marker) => {
                             console.log('Marker data:', marker);
-                            const box = document.getElementById('box-id');
-                            const text = document.getElementById('text-id');
+                            const scene = document.querySelector('a-scene');
+
+                            // Create <a-box> element
+                            const box = document.createElement('a-box');
+                            box.setAttribute('material', 'color: blue');
+                            box.setAttribute('position', '0 80 0');
+                            box.setAttribute('scale', '2.5 2.5 2.5');
+                            box.setAttribute('rotation', '0 180 0');
                             box.setAttribute('gps-entity-place', {
                                 latitude: marker.latitude,
                                 longitude: marker.longitude,
                             });
+                            scene.appendChild(box);
+
+                            // Create <a-text> element
+                            const text = document.createElement('a-text');
+                            text.setAttribute('look-at', '[gps-camera]');
+                            text.setAttribute('scale', '2.5 2.5 2.5');
+                            text.setAttribute('position', '0 83 0');
                             text.setAttribute('gps-entity-place', {
                                 latitude: marker.latitude,
                                 longitude: marker.longitude,
                             });
                             text.setAttribute('value', marker.title);
+                            scene.appendChild(text);
+
+                            // Update position of the elements
                             box.components['gps-entity-place']._updatePosition();
                             text.components['gps-entity-place']._updatePosition();
                         })
