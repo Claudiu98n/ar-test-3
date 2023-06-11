@@ -63,7 +63,7 @@
             Lat: <label id="lat"></label> Lon: <label id="lon"></label> Distance: <label id="dist"></label>
         </div>
         <script type="text/javascript">
-            window.addEventListener('DOMContentLoaded', () => {
+            window.addEventListener('load', () => {
                 const urlParams = new URLSearchParams(window.location.search);
                 const markerId = urlParams.get('markerId');
 
@@ -102,9 +102,7 @@
                             console.error('Error fetching marker data:', error);
                         });
                 }
-            });
 
-            window.addEventListener('load', () => {
                 document
                     .querySelector('[gps-entity-place]')
                     .addEventListener('gps-entity-place-update-position', (payload) => {
