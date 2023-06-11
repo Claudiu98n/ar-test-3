@@ -80,10 +80,10 @@
                             box.setAttribute('position', '0 80 0');
                             box.setAttribute('scale', '2.5 2.5 2.5');
                             box.setAttribute('rotation', '0 180 0');
-                            box.setAttribute('gps-entity-place', {
-                                latitude: marker.latitude,
-                                longitude: marker.longitude,
-                            });
+                            box.setAttribute(
+                                'gps-entity-place',
+                                `latitude: ${marker.latitude}; longitude: ${marker.longitude};`
+                            );
                             scene.appendChild(box);
 
                             // Create <a-text> element
@@ -91,10 +91,10 @@
                             text.setAttribute('look-at', '[gps-camera]');
                             text.setAttribute('scale', '2.5 2.5 2.5');
                             text.setAttribute('position', '0 83 0');
-                            text.setAttribute('gps-entity-place', {
-                                latitude: marker.latitude,
-                                longitude: marker.longitude,
-                            });
+                            text.setAttribute(
+                                'gps-entity-place',
+                                `latitude: ${marker.latitude}; longitude: ${marker.longitude};`
+                            );
                             text.setAttribute('value', marker.title);
                             scene.appendChild(text);
                         })
