@@ -63,7 +63,7 @@
             Lat: <label id="lat"></label> Lon: <label id="lon"></label> Distance: <label id="dist"></label>
         </div>
         <script type="text/javascript">
-            window.addEventListener('load', () => {
+            window.addEventListener('DOMContentLoaded', () => {
                 const urlParams = new URLSearchParams(window.location.search);
                 const markerId = urlParams.get('markerId');
 
@@ -74,37 +74,31 @@
                             console.log('Marker data:', marker);
                             const scene = document.querySelector('a-scene');
 
-                            // Create <a-box> element
-                            const box = document.createElement('a-box');
-                            box.setAttribute('material', { color: 'blue' });
-                            box.setAttribute('position', { x: 0, y: 80, z: 0 });
-                            box.setAttribute('scale', { x: 2.5, y: 2.5, z: 2.5 });
-                            box.setAttribute('rotation', { x: 0, y: 180, z: 0 });
-                            box.setAttribute('gps-entity-place', {
-                                latitude: marker.latitude,
-                                longitude: marker.longitude,
-                            });
-                            scene.appendChild(box);
+                            scene.addEventListener('loaded', () => {
+                                // Create <a-box> element
+                                const box = document.createElement('a-box');
+                                box.setAttribute('material', 'color: blue');
+                                box.setAttribute('position', '0 80 0');
+                                box.setAttribute('scale', '2.5 2.5 2.5');
+                                box.setAttribute('rotation', '0 180 0');
+                                box.setAttribute(
+                                    'gps-entity-place',
+                                    `latitude: ${marker.latitude}; longitude: ${marker.longitude}`
+                                );
+                                scene.appendChild(box);
 
-                            // Create <a-text> element
-                            const text = document.createElement('a-text');
-                            text.setAttribute('look-at', '[gps-camera]');
-                            text.setAttribute('scale', {
-                                x: 2.5,
-                                y: 2.5,
-                                z: 2.5,
+                                // Create <a-text> element
+                                const text = document.createElement('a-text');
+                                text.setAttribute('look-at', '[gps-camera]');
+                                text.setAttribute('scale', '2.5 2.5 2.5');
+                                text.setAttribute('position', '0 83 0');
+                                text.setAttribute(
+                                    'gps-entity-place',
+                                    `latitude: ${marker.latitude}; longitude: ${marker.longitude}`
+                                );
+                                text.setAttribute('value', marker.title);
+                                scene.appendChild(text);
                             });
-                            text.setAttribute('position', {
-                                x: 0,
-                                y: 83,
-                                z: 0,
-                            });
-                            text.setAttribute('gps-entity-place', {
-                                latitude: marker.latitude,
-                                longitude: marker.longitude,
-                            });
-                            text.setAttribute('value', marker.title);
-                            scene.appendChild(text);
                         })
                         .catch((error) => {
                             console.error('Error fetching marker data:', error);
